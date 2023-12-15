@@ -101,7 +101,7 @@ def count_images_in_folders(safe_folder):
     response = requests.get(path)
     classes = [file_name for file_name in response.text.splitlines()]
 
-    print(f"The folder: {safe_folder} has: {len(classes)} images")
+    st.write(f"The folder: {safe_folder} has: {len(classes)} images")
 
 def showRandom2Images(safe_folder, photo_name):
     path = os.path.join(parent_dir, safe_folder)
@@ -111,6 +111,7 @@ def showRandom2Images(safe_folder, photo_name):
     for i in range(2):
         rnd = random.randint(0, len([file_name for file_name in os.listdir(path)]) - 1)
         img_orig = plt.imread(path + '/' + photo_name + str(rnd) + '.jpg')
+        print(path + '/' + photo_name + str(rnd) + '.jpg')
         img_rgb = img_orig
         images.append(img_rgb)
 
