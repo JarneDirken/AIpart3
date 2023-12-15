@@ -7,8 +7,24 @@ import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from keras.utils import image_dataset_from_directory
+import requests
+from io import BytesIO
 
 # global variables:
+parent_dir = "https://github.com/JarneDirken/AIpart3/raw/main/datasets"
+
+football_folder_name = "football_folder"
+basketball_folder_name = "basketball_folder"
+tennis_folder_name = "tennis_folder"
+golf_folder_name = "golf_folder"
+volleyball_folder_name = "volleyball_folder"
+
+football_photo_name = "football"
+basketball_photo_name = "basketball"
+tennisball_photo_name = "tennisball"
+golfball_photo_name = "golfball"
+volleyball_photo_name = "volleyball"
+
 batch_size = 32
 image_size = (64, 64)
 validation_split = 0.2
@@ -79,32 +95,30 @@ model.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = [
 
 # EDA functions
 def count_images_in_folders(safe_folder):
-    parent_dir = "C:/Users/Jarne/Documents/schooljaar 2023-2024/ai/task3/datasets"
     path = os.path.join(parent_dir, safe_folder)
-
-    if not os.path.exists(path) or not os.path.isdir(path):
-        print(f"Invalid directory: {path}")
-        return
      
-    classes = [class_name for class_name in os.listdir(path) if os.path.isfile(os.path.join(path, class_name))]
-    
+    # Fetch list of image files from GitHub
+    response = requests.get(path)
+    classes = [file_name for file_name in response.text.splitlines()]
+
     print(f"The folder: {safe_folder} has: {len(classes)} images")
 
 def showRandom2Images(safe_folder, photo_name):
-    parent_dir = "C:/Users/Jarne/Documents/schooljaar 2023-2024/ai/task3/datasets"
     path = os.path.join(parent_dir, safe_folder)
 
     images = []
 
     for i in range(2):
-        rnd = random.randint(0,len([class_name for class_name in os.listdir(path) if os.path.isfile(os.path.join(path, class_name))])-1)
-        img_orig = cv2.imread(path + '/' + photo_name + str(rnd) + '.jpg')
+        rnd = random.randint(0, len([file_name for file_name in os.listdir(path)]) - 1)
+        img_url = f"{path}/{photo_name}{rnd}.jpg"
+        img_data = requests.get(img_url).content
+        img_orig = cv2.imdecode(np.asarray(bytearray(img_data)), cv2.IMREAD_COLOR)
         img_rgb = cv2.cvtColor(img_orig, cv2.COLOR_BGR2RGB)
         images.append(img_rgb)
 
-    plt.figure(figsize = (5, 10))
+    plt.figure(figsize=(5, 10))
     for i in range(2):
-        plt.subplot(1,2 ,i+1)
+        plt.subplot(1, 2, i + 1)
         plt.imshow(images[i])
         plt.axis('off')
 
