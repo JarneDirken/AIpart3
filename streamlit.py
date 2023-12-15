@@ -123,7 +123,7 @@ def showRandom2Images(safe_folder, photo_name):
 
 # Model training function
 def train_model(train_ds, validation_ds, epochs=10):
-    steps_per_epoch = len(train_ds)
+    steps_per_epoch = 20
     global history
     history = model.fit(train_ds,
                 validation_data = validation_ds,
