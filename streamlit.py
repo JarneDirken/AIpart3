@@ -11,7 +11,7 @@ import requests
 from io import BytesIO
 
 # global variables:
-parent_dir = "https://github.com/JarneDirken/AIpart3/tree/main/datasets/training_set"
+parent_dir = "datasets/training_set"
 
 football_folder_name = "football_folder"
 basketball_folder_name = "basketball_folder"
@@ -104,22 +104,40 @@ def count_images_in_folders(safe_folder):
     st.write(f"The folder: {safe_folder} has: {len(classes)} images")
 
 def showRandom2Images(safe_folder, photo_name):
-    path = os.path.join(parent_dir, safe_folder)
+    # Construct the GitHub API URL for the directory
+    api_url = f'https://api.github.com/repos/JarneDirken/AIpart3/contents/datasets/training_set/{safe_folder}'
 
-    images = []
+    # Fetch the contents using the GitHub API
+    response = requests.get(api_url)
 
-    for i in range(2):
-        rnd = random.randint(0, len([file_name for file_name in os.listdir(path)]) - 1)
-        img_orig = plt.imread(path + '/' + photo_name + str(rnd) + '.jpg')
-        print(path + '/' + photo_name + str(rnd) + '.jpg')
-        img_rgb = img_orig
-        images.append(img_rgb)
+    if response.status_code == 200:
+        # Parse the JSON response
+        contents = response.json()
 
-    plt.figure(figsize=(5, 10))
-    for i in range(2):
-        plt.subplot(1, 2, i + 1)
-        plt.imshow(images[i])
-        plt.axis('off')
+        # Filter out files from the response
+        image_files = [item['name'] for item in contents if item['type'] == 'file']
+
+        images = []
+
+        for i in range(2):
+            # Randomly select an image file
+            selected_image = random.choice(image_files)
+
+            # Construct the URL for the selected image file
+            img_url = f'https://raw.githubusercontent.com/JarneDirken/AIpart3/main/datasets/training_set/{safe_folder}/{selected_image}'
+
+            # Fetch the image using the URL
+            img_orig = plt.imread(img_url)
+            img_rgb = img_orig
+            images.append(img_rgb)
+
+        plt.figure(figsize=(5, 10))
+        for i in range(2):
+            plt.subplot(1, 2, i + 1)
+            plt.imshow(images[i])
+            plt.axis('off')
+    else:
+        st.write(f"Error fetching data for {safe_folder}. Status Code: {response.status_code}")
 
 # Model training function
 def train_model(train_ds, validation_ds, epochs=100):
