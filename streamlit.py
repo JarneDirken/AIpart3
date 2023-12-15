@@ -1,8 +1,8 @@
 import streamlit as st
 from matplotlib import pyplot as plt
+import numpy as np
 import os
 import random
-import cv2
 import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -110,10 +110,8 @@ def showRandom2Images(safe_folder, photo_name):
 
     for i in range(2):
         rnd = random.randint(0, len([file_name for file_name in os.listdir(path)]) - 1)
-        img_url = f"{path}/{photo_name}{rnd}.jpg"
-        img_data = requests.get(img_url).content
-        img_orig = cv2.imdecode(np.asarray(bytearray(img_data)), cv2.IMREAD_COLOR)
-        img_rgb = cv2.cvtColor(img_orig, cv2.COLOR_BGR2RGB)
+        img_orig = plt.imread(path + '/' + photo_name + str(rnd) + '.jpg')
+        img_rgb = img_orig
         images.append(img_rgb)
 
     plt.figure(figsize=(5, 10))
