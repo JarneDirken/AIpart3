@@ -104,6 +104,9 @@ def count_images_in_folders(safe_folder):
     st.write(f"The folder: {safe_folder} has: {len(classes)} images")
 
 def showRandom2Images(safe_folder, photo_name):
+    # Construct the GitHub repository URL
+    github_repo_url = 'https://github.com/JarneDirken/AIpart3'
+
     # Construct the GitHub API URL for the directory
     api_url = f'https://api.github.com/repos/JarneDirken/AIpart3/contents/datasets/training_set/{safe_folder}'
 
@@ -124,7 +127,7 @@ def showRandom2Images(safe_folder, photo_name):
             selected_image = random.choice(image_files)
 
             # Construct the URL for the selected image file
-            img_url = f'https://raw.githubusercontent.com/JarneDirken/AIpart3/main/datasets/training_set/{safe_folder}/{selected_image}'
+            img_url = f'{github_repo_url}/raw/main/datasets/training_set/{safe_folder}/{selected_image}'
 
             # Fetch the image using the URL
             img_orig = plt.imread(img_url)
