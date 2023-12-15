@@ -11,7 +11,7 @@ import requests
 from io import BytesIO
 
 # global variables:
-parent_dir = "https://github.com/JarneDirken/AIpart3/tree/main/datasets"
+parent_dir = "https://github.com/JarneDirken/AIpart3/tree/main/datasets/training_set"
 
 football_folder_name = "football_folder"
 basketball_folder_name = "basketball_folder"
