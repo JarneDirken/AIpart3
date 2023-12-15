@@ -183,11 +183,11 @@ def main():
     count_images_in_folders(volleyball_folder_name)
 
     st.subheader("Random Images")
-    showRandom2Images(football_folder_name, football_photo_name)
-    showRandom2Images(basketball_folder_name, basketball_photo_name)
-    showRandom2Images(tennis_folder_name, tennisball_photo_name)
-    showRandom2Images(golf_folder_name, golfball_photo_name)
-    showRandom2Images(volleyball_folder_name, volleyball_photo_name)
+    # showRandom2Images(football_folder_name, football_photo_name)
+    # showRandom2Images(basketball_folder_name, basketball_photo_name)
+    # showRandom2Images(tennis_folder_name, tennisball_photo_name)
+    # showRandom2Images(golf_folder_name, golfball_photo_name)
+    # showRandom2Images(volleyball_folder_name, volleyball_photo_name)
 
     # Model Training Section
     st.header("Model Training")
