@@ -122,7 +122,7 @@ def showRandom2Images(safe_folder, photo_name):
         plt.axis('off')
 
 # Model training function
-def train_model(train_ds, validation_ds, epochs=100):
+def train_model(train_ds, validation_ds, epochs=10):
     steps_per_epoch = len(train_ds)
     global history
     history = model.fit(train_ds,
