@@ -1,2 +1,5 @@
 simpleai
 streamlit
+matplotlib
+opencv-python
+tensorflow
